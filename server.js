@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Endpoint untuk daftar culinary
+// Endpoint daftar culinary
 app.get("/vendor-c/culinary", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM culinary");
@@ -14,14 +14,14 @@ app.get("/vendor-c/culinary", async (req, res) => {
     const data = result.rows.map(item => ({
       id: item.id,
       details: {
-        name: item.name || "",
-        category: item.category || ""
+        name: item.name,
+        category: item.category
       },
       pricing: {
-        base_price: parseInt(item.price) || 0,
-        tax: Math.round((parseInt(item.price) || 0) * 0.1)
+        base_price: item.price,
+        tax: Math.round(item.price * 0.1)
       },
-      stock: item.stock || 0
+      stock: item.stock
     }));
 
     res.json(data);
@@ -32,7 +32,7 @@ app.get("/vendor-c/culinary", async (req, res) => {
 });
 
 // Endpoint info vendor
-app.get("/vendor-c/info", async (req, res) => {
+app.get("/", async (req, res) => {
   try {
     const result = await db.query("SELECT COUNT(*) FROM culinary");
 
@@ -55,5 +55,5 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-// Export app untuk Vercel
+// Export untuk Vercel
 module.exports = app;
