@@ -31,7 +31,7 @@ app.get("/vendor-c/culinary", async (req, res) => {
   }
 });
 
-// Endpoint info vendor
+// Root endpoint menampilkan info vendor
 app.get("/", async (req, res) => {
   try {
     const result = await db.query("SELECT COUNT(*) FROM culinary");
