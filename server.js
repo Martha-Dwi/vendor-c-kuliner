@@ -31,6 +31,22 @@ app.get("/vendor-c/culinary", async (req, res) => {
   }
 });
 
+app.get("/vendor-c/info", async (req, res) => {
+  try {
+    const result = await db.query("SELECT COUNT(*) FROM culinary");
+
+    res.json({
+      ok: true,
+      vendor: "Vendor C - Kuliner",
+      total_products: parseInt(result.rows[0].count)
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 // Tambahkan listen hanya untuk testing lokal
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 3000;
